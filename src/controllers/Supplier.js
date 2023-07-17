@@ -61,18 +61,17 @@ const postTranskas = async (req, res) => {
       var hours = String(now.getHours()).padStart(2, '0');
       var minutes = String(now.getMinutes()).padStart(2, '0');
       var seconds = String(now.getSeconds()).padStart(2, '0');
-      var endday = new Date(year, now.getMonth() + 1, 0).getDate();
-       
+      var endday = new Date(year, now.getMonth() + 1, 0).getDate();       
       
       // Initializing value
       var pengajuan = 1;
       var transtgl = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      var createdby = 140; // TBC
+      var createdby = 269; // Admin_BAS
       var createddate = transtgl;
       console.log(createddate);
       var bebantgl = `${year}-${String(Number(month) + 1).padStart(2, '0')}-${endday} 23:59:59`;
 
-      var loc = 1; // TBC
+      var loc = 94; // BAS
       var accuserby = createdby;
       var accuserdate = createddate;
       var accuserstatus = 1;
