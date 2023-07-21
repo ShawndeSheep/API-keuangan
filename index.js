@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // Require
 const conn = require("./src/database/conn");
