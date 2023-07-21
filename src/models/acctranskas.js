@@ -1,4 +1,5 @@
 const sequelize = require("../database/conn")
+require("dotenv").config();
 const { Model, DataTypes } = require("sequelize");
 
 const AccTranskas = sequelize.define('AccTranskas', {
@@ -98,7 +99,7 @@ const AccTranskas = sequelize.define('AccTranskas', {
 {
   sequelize,
   modelName: "AccTranskas",
-  tableName: "acctranskas_trial",
+  tableName: process.env.DEV_TABLE,
   timestamps: false,
   timezone: "+07:00"
 })
