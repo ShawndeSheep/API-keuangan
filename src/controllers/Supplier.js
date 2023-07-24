@@ -2,6 +2,7 @@ const express = require("express");
 const { Sequelize, Op } = require("sequelize");
 const AccTranskas = require("../models/acctranskas");
 const MPengeluaran = require("../models/MPengeluaran");
+const Msup = require("../models/mastersupplier");
 const moment = require('moment-timezone');
 
 
@@ -24,11 +25,11 @@ const postTranskas = async (req, res) => {
     var keterangan = req.body.keterangan;
     var nilai_uang = req.body.nilai_uang;
     var nomor_faktur = req.body.nomor_faktur;
-    var supplier_id = req.body.supplier_id; //Bridging API
+    var kode_sup = req.body.supplier_id;
     var no_document = req.body.no_document;
     var coa = req.body.coa;
 
-    if(keterangan == "" || nilai_uang == "" || nomor_faktur == "" || supplier_id == "" || no_document == "" || keterangan == undefined || nilai_uang == undefined || nomor_faktur == undefined || supplier_id == undefined || no_document == undefined){
+    if(keterangan == "" || nilai_uang == "" || nomor_faktur == "" || kode_sup == "" || no_document == "" || keterangan == undefined || nilai_uang == undefined || nomor_faktur == undefined || kode_sup == undefined || no_document == undefined){
       return res.status(400).send({
         'message': 'Pastikan semua field terisi'
     })   
@@ -49,8 +50,21 @@ const postTranskas = async (req, res) => {
       }
 
       var out_id = temp_find[0].outid;
-    
 
+      // Cari supplier id
+      var find_id = await Msup.findOne({
+        where:{
+          kodesupplier: kode_sup
+        }
+      })
+      if(find_id == null){
+        return res.status(404).json({
+          message: "Supplier not found",
+        })
+      }else{
+        var supplier_id = find_id.supplierid;
+      }
+      
       // Time Date Format
       var now = new Date();
       now.setHours(now.getHours() + 7);
@@ -68,8 +82,8 @@ const postTranskas = async (req, res) => {
       var transtgl = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
       var createdby = 269; // Admin_BAS
       var createddate = transtgl;
-      console.log(createddate);
-      var bebantgl = `${year}-${String(Number(month) + 1).padStart(2, '0')}-${endday} 23:59:59`;
+      //console.log(createddate);
+      var bebantgl = `${year}-${month}-${endday}`;
 
       var loc = 94; // BAS
       var accuserby = createdby;
