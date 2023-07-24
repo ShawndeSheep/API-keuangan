@@ -135,8 +135,30 @@ const postTranskas = async (req, res) => {
   }
 }
 
+// Get
+const getId = async (req, res) => {
+  var id = req.params.id;
+
+  // Find no document
+  var temp_find = await AccTranskas.findAll({
+    where: {
+        no_document: id,
+    }
+  });
+  if(temp_find.length > 0){
+    return res.status(200).json({
+      message: "Data found",
+    })
+  }else{
+    return res.status(404).json({
+      message: "Data not found",
+    })
+  }
+}
+
 // Export
 module.exports = {
-  postTranskas
+  postTranskas,
+  getId
 };
   
