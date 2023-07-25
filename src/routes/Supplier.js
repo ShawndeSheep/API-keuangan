@@ -8,6 +8,6 @@ const{
 
 // Endpoints
 router.post("/transkas",postTranskas);
-router.get("/get/:id",getId)
+router.get("/:id",getId)
 
 module.exports = router;
